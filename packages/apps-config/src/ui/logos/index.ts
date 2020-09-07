@@ -33,6 +33,7 @@ import nodePolkadot from './nodes/polkadot-circle.svg';
 import nodePolkadotJs from './nodes/polkadot-js.svg';
 import nodeSubsocial from './nodes/subsocial.svg';
 import nodeSubstrate from './nodes/substrate-hexagon.svg';
+import nodeBitdex from './nodes/bitdex.svg';
 
 // extensions
 // alphbetical
@@ -98,6 +99,7 @@ const nodeLogos: Record<string, any> = [
 const namedLogos: Record<string, any> = {
   acala: nodeAcala,
   alexander: nodePolkadot,
+  bitdex: nodeBitdex,
   centrifuge: nodeCentrifuge,
   crab: nodeCrab,
   crust: nodeCrust,

@@ -55,6 +55,12 @@ function createLiveNetworks (t: TFunction): LinkOption[] {
   return [
     // fixed, polkadot
     {
+      dnslink: 'bitdex',
+      info: 'bitdex',
+      text: t<string>('rpc.bitdex.bithumb', 'Bitdex (Live, hosted by Bithumb)', { ns: 'apps-config' }),
+      value: 'wss://api.ownstack.cn'
+    },
+    {
       dnslink: 'polkadot',
       info: 'polkadot',
       text: t<string>('rpc.polkadot.parity', 'Polkadot (Live, hosted by Parity)', { ns: 'apps-config' }),
