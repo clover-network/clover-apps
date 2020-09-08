@@ -7,7 +7,7 @@ import { DropdownOptions } from '../util/types';
 
 import React from 'react';
 
-import jsonrpc from '@polkadot/types/interfaces/jsonrpc';
+import jsonrpc from '../../../react-api/src/interfaces/jsonrpc';
 
 import Dropdown from '../Dropdown';
 import { classes } from '../util';
