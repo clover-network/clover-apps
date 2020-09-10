@@ -8,6 +8,11 @@ const bitdexTypes = {
   CurrencyTypeEnum: {
     _enum: ['BXB', 'BUSD', 'DOT', 'BETH']
   },
+  PairKey: 'u64',
+  Rate: 'u128',
+  Ratio: 'u128',
+  Price: 'u128',
+  Share: 'u128',
 }
 
 export default bitdexTypes;
