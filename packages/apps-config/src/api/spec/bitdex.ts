@@ -13,6 +13,14 @@ const bitdexTypes = {
   Ratio: 'u128',
   Price: 'u128',
   Share: 'u128',
+  CurrencyInfo: {
+    id: 'CurrencyId',
+    name: 'CurrencyTypeEnum'
+  },
+  ExchangeInfo: {
+    balance: 'Balance',
+    routes: 'Vec<CurrencyTypeEnum>'
+  }
 }
 
 export default bitdexTypes;
