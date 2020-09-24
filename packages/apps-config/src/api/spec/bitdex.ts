@@ -20,6 +20,11 @@ const bitdexTypes = {
   ExchangeInfo: {
     balance: 'Balance',
     routes: 'Vec<CurrencyTypeEnum>'
+  },
+  PoolId: {
+    _enum: {
+      Swap: 'u64'
+    }
   }
 }
 
