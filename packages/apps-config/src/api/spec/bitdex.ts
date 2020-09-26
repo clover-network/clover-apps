@@ -3,6 +3,7 @@
  **/
 const bitdexTypes = {
   Amount: 'i128',
+  AmountOf: 'Amount',
   Balance: 'u128',
   CurrencyId: {
     _enum: ['BXB', 'BUSD', 'DOT', 'BETH']
