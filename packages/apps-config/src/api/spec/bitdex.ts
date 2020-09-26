@@ -16,7 +16,7 @@ const bitdexTypes = {
   Rate: 'FixedU128',
   Ratio: 'FixedU128',
   Price: 'FixedU128',
-  Share: 'FixedU128',
+  Share: 'u128',
   CurrencyInfo: {
     id: 'CurrencyId',
     name: 'CurrencyTypeEnum'
