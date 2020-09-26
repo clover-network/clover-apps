@@ -2,17 +2,20 @@
  * types for bitdex
  **/
 const bitdexTypes = {
+  Amount: 'i128',
   Balance: 'u128',
-  CurrencyId: 'u8',
+  CurrencyId: {
+    _enum: ['BXB', 'BUSD', 'DOT', 'BETH']
+  },
   CurrencyIdOf: 'CurrencyId',
   CurrencyTypeEnum: {
     _enum: ['BXB', 'BUSD', 'DOT', 'BETH']
   },
   PairKey: 'u64',
-  Rate: 'u128',
-  Ratio: 'u128',
-  Price: 'u128',
-  Share: 'u128',
+  Rate: 'FixedU128',
+  Ratio: 'FixedU128',
+  Price: 'FixedU128',
+  Share: 'FixedU128',
   CurrencyInfo: {
     id: 'CurrencyId',
     name: 'CurrencyTypeEnum'
