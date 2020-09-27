@@ -6,11 +6,11 @@ const bitdexTypes = {
   AmountOf: 'Amount',
   Balance: 'u128',
   CurrencyId: {
-    _enum: ['BXB', 'BUSD', 'DOT', 'BETH']
+    _enum: ['CLV', 'CUSD', 'DOT', 'CETH']
   },
   CurrencyIdOf: 'CurrencyId',
   CurrencyTypeEnum: {
-    _enum: ['BXB', 'BUSD', 'DOT', 'BETH']
+    _enum: ['CLV', 'CUSD', 'DOT', 'CETH']
   },
   PairKey: 'u64',
   Rate: 'FixedU128',
