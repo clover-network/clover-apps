@@ -1,10 +1,10 @@
 
 const bitdexApi = {
   bitdex: {
-    get_balance: {
+    getBalance: {
       section: 'bitdex',
       description: 'Get account balance for a token',
-      method: 'get_balance',
+      method: 'getBalance',
       params: [
         {
           name: 'account_id',
@@ -14,26 +14,26 @@ const bitdexApi = {
       type: 'Vec<(CurrencyTypeEnum, Balance)>'
     },
 
-    get_currencies: {
+    getCurrencies: {
       section: 'bitdex',
       description: 'Get supported currencies',
-      method: 'get_currencies',
+      method: 'getCurrencies',
       params: [],
       type: 'Vec<CurrencyInfo>'
     },
 
-    currency_pair: {
+    currencyPair: {
       section: 'bitdex',
       description: 'Get supported currency paris',
-      method: 'currency_pair',
+      method: 'currencyPair',
       params: [],
       type: 'Vec<(CurrencyTypeEnum, CurrencyTypeEnum)>'
     },
 
-    target_amount_available: {
+    targetAmountAvailable: {
       section: 'bitdex',
       description: 'Get target token amount for swapping a specified token',
-      method: 'target_amount_available',
+      method: 'targetAmountAvailable',
       params: [
         {
           name: 'source',
@@ -51,10 +51,10 @@ const bitdexApi = {
       type: 'ExchangeInfo'
     },
 
-    supply_amount_needed: {
+    supplyAmountNeeded: {
       section: 'bitdex',
       description: 'Get supply token amount for swapping a target token',
-      method: 'supply_amount_needed',
+      method: 'supplyAmountNeeded',
       params: [
         {
           name: 'source',
@@ -72,10 +72,10 @@ const bitdexApi = {
       type: 'ExchangeInfo'
     },
 
-    get_liquidity: {
+    getLiquidity: {
       section: 'bitdex',
       description: 'Get liquidity info',
-      method: 'get_liquidity',
+      method: 'getLiquidity',
       params: [
         {
           name: 'account',
