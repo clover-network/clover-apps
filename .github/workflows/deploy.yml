@@ -1,0 +1,29 @@
+name: Clover apps deploy
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+
+      - name: Upgrade node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '13'
+      - run: yarn install
+      - run: yarn build:www
+
+      - name: Rsync deployments
+        uses: AEnterprise/rsync-deploy@v1.0
+        env:
+          DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+          ARGS: -avz --delete
+          SERVER_PORT: 22
+          FOLDER: ./packages/apps/build
+          SERVER_IP: ${{ secrets.SSH_HOST }}
+          USERNAME: ${{ secrets.SSH_USER }}
+          SERVER_DESTINATION: ${{ secrets.DEPLOY_TARGET }}
