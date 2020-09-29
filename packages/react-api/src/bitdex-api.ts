@@ -84,7 +84,25 @@ const bitdexApi = {
      ],
       type: 'Vec<(CurrencyId, CurrencyId, Balance, Balance, Balance, Balance)>'
     },
-  }
+    getAccountStakingInfo: {
+      section: 'bitdex',
+      description: 'Get staking info',
+      method: 'getAccountStakingInfo',
+      params: [
+        {
+          name: 'account',
+          type: 'AccountId',
+        }, {
+          name: 'currency_first',
+          type: 'String',
+        }, {
+          name: 'currency_second',
+          type: 'String',
+        }
+      ],
+      type: '(FixedU128, Balance)',
+    },
+  },
 };
 
 export default bitdexApi;
