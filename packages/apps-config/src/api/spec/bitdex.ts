@@ -17,6 +17,7 @@ const bitdexTypes = {
   Ratio: 'FixedU128',
   Price: 'FixedU128',
   Share: 'u128',
+  OracleKey: 'CurrencyId',
   CurrencyInfo: {
     id: 'CurrencyId',
     name: 'CurrencyTypeEnum'
