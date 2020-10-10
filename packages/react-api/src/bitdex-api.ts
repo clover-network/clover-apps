@@ -103,6 +103,15 @@ const bitdexApi = {
       type: '(FixedU128, Balance)',
     },
   },
+  incentive: {
+    getAllPools: {
+      section: 'incentive',
+      description: 'Get all incentive pools',
+      method: 'getAllPools',
+      params: [],
+      type: 'Vec<(CurrencyTypeEnum, CurrencyTypeEnum, Share, Balance)>'
+    },
+  },
 };
 
 export default bitdexApi;
