@@ -11,7 +11,7 @@ const bitdexApi = {
           type: 'AccountId',
         }
      ],
-      type: 'Vec<(CurrencyTypeEnum, Balance)>'
+      type: 'Vec<(CurrencyId, Balance)>'
     },
 
     getCurrencies: {
@@ -27,7 +27,7 @@ const bitdexApi = {
       description: 'Get supported currency paris',
       method: 'currencyPair',
       params: [],
-      type: 'Vec<(CurrencyTypeEnum, CurrencyTypeEnum)>'
+      type: 'Vec<(NativeCurrencyId, NativeCurrencyId)>'
     },
 
     targetAmountAvailable: {
@@ -37,11 +37,11 @@ const bitdexApi = {
       params: [
         {
           name: 'source',
-          type: 'CurrencyTypeEnum',
+          type: 'NativeCurrencyId',
         },
         {
           name: 'target',
-          type: 'CurrencyTypeEnum',
+          type: 'NativeCurrencyId',
         },
         {
           name: 'amount',
@@ -58,11 +58,11 @@ const bitdexApi = {
       params: [
         {
           name: 'source',
-          type: 'CurrencyTypeEnum',
+          type: 'NativeCurrencyId',
         },
         {
           name: 'target',
-          type: 'CurrencyTypeEnum',
+          type: 'NativeCurrencyId',
         },
         {
           name: 'amount',
@@ -82,7 +82,7 @@ const bitdexApi = {
           type: 'AccountId',
         }
      ],
-      type: 'Vec<(CurrencyId, CurrencyId, Balance, Balance, Balance, Balance)>'
+      type: 'Vec<(NativeCurrencyId, NativeCurrencyId, Balance, Balance, Balance, Balance)>'
     },
     getAccountStakingInfo: {
       section: 'bitdex',
@@ -94,10 +94,10 @@ const bitdexApi = {
           type: 'AccountId',
         }, {
           name: 'currency_first',
-          type: 'String',
+          type: 'CurrencyId',
         }, {
           name: 'currency_second',
-          type: 'String',
+          type: 'CurrencyId',
         }
       ],
       type: '(FixedU128, Balance)',
@@ -109,7 +109,7 @@ const bitdexApi = {
       description: 'Get all incentive pools',
       method: 'getAllPools',
       params: [],
-      type: 'Vec<(CurrencyTypeEnum, CurrencyTypeEnum, Share, Balance)>'
+      type: 'Vec<(CurrencyId, CurrencyId, Share, Balance)>'
     },
   },
 };
