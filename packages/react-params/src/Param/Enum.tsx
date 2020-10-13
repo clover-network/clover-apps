@@ -64,18 +64,13 @@ function EnumParam (props: Props): React.ReactElement<Props> {
           ? [{ name: newType.name, type: newType }]
           : null
       );
-    },
-    [subTypes]
-  );
 
-  const _onChangeParam = useCallback(
-    ([{ isValid, value }]: RawParam[]): void => {
-      current && onChange && onChange({
-        isValid,
-        value: { [current[0].name as string]: value }
+      newType && onChange && onChange({
+        isValid: true,
+        value: { [newType.name as string]: newType }
       });
     },
-    [current, onChange]
+    [subTypes]
   );
 
   if (isDisabled) {
@@ -95,13 +90,6 @@ function EnumParam (props: Props): React.ReactElement<Props> {
         withEllipsis
         withLabel={withLabel}
       />
-      {current && (
-        <Params
-          onChange={_onChangeParam}
-          overrides={overrides}
-          params={current}
-        />
-      )}
     </Bare>
   );
 }
