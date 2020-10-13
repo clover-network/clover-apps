@@ -15,7 +15,7 @@ interface Props {
   uiHighlight?: string;
 }
 
-const defaultHighlight = '#f19135'; // #999
+const defaultHighlight = '#d53127'; // #999
 
 const getHighlight = (props: Props): string =>
   (props.uiHighlight || defaultHighlight);
@@ -36,11 +36,11 @@ export default createGlobalStyle<Props>`
   }
 
   .highlight--bg {
-    background: ${getHighlight} !important;
+    background: #f2711d !important;
   }
 
   .highlight--bg-light {
-    background: white;
+    background: #f57a2f;
     position: relative;
 
     &:before {
@@ -48,7 +48,7 @@ export default createGlobalStyle<Props>`
       bottom: 0;
       content: ' ';
       left: 0;
-      opacity: 0.09;
+      opacity: 0;
       position: absolute;
       right: 0;
       top: 0;
@@ -98,7 +98,7 @@ export default createGlobalStyle<Props>`
     &:not(.isDisabled):not(.isIcon):not(.isBasic),
     &.withoutLink:not(.isDisabled) {
       .ui--Icon {
-        background: ${getHighlight};
+        background: #f2711d;
         color: #f5f5f4;
       }
     }
@@ -119,7 +119,7 @@ export default createGlobalStyle<Props>`
 
     &:hover:not(.isDisabled):not(.isReadOnly),
     &.isSelected {
-      background: ${getHighlight};
+      background: #f2711d;
       color: #f5f5f4;
       text-shadow: none;
 
@@ -144,7 +144,7 @@ export default createGlobalStyle<Props>`
 
   .theme--default {
     .ui--Tabs-Tab.tabLinkActive {
-      border-bottom-color: ${getHighlight};
+      border-bottom-color: #f2711d;
     }
 
     .ui.negative.button,
@@ -262,7 +262,7 @@ export default createGlobalStyle<Props>`
   }
 
   body {
-    background: #f5f3f1;
+    background: #f6f8fc;
     height: 100%;
     margin: 0;
   }

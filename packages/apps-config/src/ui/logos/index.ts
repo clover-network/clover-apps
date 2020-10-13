@@ -6,6 +6,7 @@
 
 // anything for a specific chain, most would probably fit into the node category (but allow for chain-specific)
 // alphbetical
+import chainClover from './chains/clover.svg';
 import chainDusty from './chains/dusty.png';
 import chainKusama from './chains/kusama-128.gif';
 import chainRococo from './chains/rococo.svg';
@@ -53,6 +54,7 @@ import emptyLogo from './empty.svg';
 // overrides based on the actual matched chain name
 // alphabetical
 const chainLogos: Record<string, any> = [
+  ['Clover', chainClover],
   ['Dusty', chainDusty],
   ['Kusama', chainKusama], // new name after CC3
   ['Kusama CC1', chainKusama],
@@ -72,6 +74,7 @@ const chainLogos: Record<string, any> = [
 const nodeLogos: Record<string, any> = [
   ['centrifuge chain', nodeCentrifuge],
   ['Centrifuge Chain Node', nodeCentrifuge],
+  ['Clover Testnet', nodeClover],
   ['crab', nodeCrab],
   ['crust node', nodeCrust],
   ['darwinia parachain', nodeDarwinia],
