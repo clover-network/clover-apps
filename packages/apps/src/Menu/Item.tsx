@@ -54,6 +54,7 @@ export default React.memo(styled(Item)`
 
   &.topLevel {
     padding: 0;
+    color: #ffffff;
 
     a {
       padding: 1rem 1.5rem;
