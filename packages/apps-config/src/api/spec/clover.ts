@@ -1,7 +1,7 @@
 /**
  * types for bitdex
  **/
-const bitdexTypes = {
+const cloverTypes = {
   Amount: 'i128',
   AmountOf: 'Amount',
   Balance: 'u128',
@@ -33,4 +33,4 @@ const bitdexTypes = {
   }
 }
 
-export default bitdexTypes;
+export default cloverTypes;
