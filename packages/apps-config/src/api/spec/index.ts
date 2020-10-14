@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import acala from './acala';
-import bitdex from './bitdex';
+import clover from './clover';
 import centrifugeChain from './centrifuge-chain';
 import crab from './crab';
 import crust from './crust';
@@ -24,7 +24,7 @@ import subsocialNode from './subsocial';
 export default {
   Crab: crab,
   acala,
-  bitdex,
+  clover,
   'centrifuge-chain': centrifugeChain,
   crust,
   'cumulus-test-parachain': testPara,

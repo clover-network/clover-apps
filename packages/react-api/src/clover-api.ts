@@ -1,8 +1,8 @@
 
-const bitdexApi = {
-  bitdex: {
+const cloverApi = {
+  clover: {
     getBalance: {
-      section: 'bitdex',
+      section: 'clover',
       description: 'Get account balance for a token',
       method: 'getBalance',
       params: [
@@ -15,7 +15,7 @@ const bitdexApi = {
     },
 
     getCurrencies: {
-      section: 'bitdex',
+      section: 'clover',
       description: 'Get supported currencies',
       method: 'getCurrencies',
       params: [],
@@ -23,7 +23,7 @@ const bitdexApi = {
     },
 
     currencyPair: {
-      section: 'bitdex',
+      section: 'clover',
       description: 'Get supported currency paris',
       method: 'currencyPair',
       params: [],
@@ -31,7 +31,7 @@ const bitdexApi = {
     },
 
     targetAmountAvailable: {
-      section: 'bitdex',
+      section: 'clover',
       description: 'Get target token amount for swapping a specified token',
       method: 'targetAmountAvailable',
       params: [
@@ -52,7 +52,7 @@ const bitdexApi = {
     },
 
     supplyAmountNeeded: {
-      section: 'bitdex',
+      section: 'clover',
       description: 'Get supply token amount for swapping a target token',
       method: 'supplyAmountNeeded',
       params: [
@@ -73,7 +73,7 @@ const bitdexApi = {
     },
 
     getLiquidity: {
-      section: 'bitdex',
+      section: 'clover',
       description: 'Get liquidity info',
       method: 'getLiquidity',
       params: [
@@ -85,7 +85,7 @@ const bitdexApi = {
       type: 'Vec<(CurrencyId, CurrencyId, Balance, Balance, Balance, Balance)>'
     },
     getAccountStakingInfo: {
-      section: 'bitdex',
+      section: 'clover',
       description: 'Get staking info',
       method: 'getAccountStakingInfo',
       params: [
@@ -114,4 +114,4 @@ const bitdexApi = {
   },
 };
 
-export default bitdexApi;
+export default cloverApi;

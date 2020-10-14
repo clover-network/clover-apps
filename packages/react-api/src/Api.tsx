@@ -27,7 +27,7 @@ import addressDefaults from '@polkadot/util-crypto/address/defaults';
 
 import ApiContext from './ApiContext';
 import registry from './typeRegistry';
-import bitdexApi from './bitdex-api'
+import cloverApi from './clover-api'
 
 interface Props {
   children: React.ReactNode;
@@ -186,7 +186,7 @@ function Api ({ children, store, url }: Props): React.ReactElement<Props> | null
     const signer = new ApiSigner(queuePayload, queueSetTxStatus);
     const types = getDevTypes();
 
-    api = new ApiPromise({ provider, registry, signer, types, typesChain, typesSpec, rpc: bitdexApi });
+    api = new ApiPromise({ provider, registry, signer, types, typesChain, typesSpec, rpc: cloverApi, });
 
     api.on('connected', () => setIsApiConnected(true));
     api.on('disconnected', () => setIsApiConnected(false));
