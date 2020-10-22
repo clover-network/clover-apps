@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/react-params authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { TypeDef } from '@polkadot/types/types';
 import { RawParam, RawParamOnChange, RawParamOnEnter, RawParamOnEscape, Size } from '../types';
@@ -8,9 +7,10 @@ import { RawParam, RawParamOnChange, RawParamOnEnter, RawParamOnEscape, Size } f
 import React, { useCallback, useState } from 'react';
 import { Compact } from '@polkadot/types';
 import { Input } from '@polkadot/react-components';
-import { hexToU8a, isAscii, isHex, isU8a, u8aToHex, u8aToString } from '@polkadot/util';
+import { hexToU8a, isAscii, isHex, isU8a, stringToU8a, u8aToHex, u8aToString } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
 
+import { useTranslation } from '../translate';
 import Bare from './Bare';
 
 interface Props {
@@ -37,11 +37,14 @@ const defaultValidate = (): boolean =>
   true;
 
 function convertInput (value: string): [boolean, Uint8Array] {
-  // try hex conversion
-  try {
-    return [true, hexToU8a(value)];
-  } catch (error) {
-    // we continue...
+  if (value === '0x') {
+    return [true, new Uint8Array([])];
+  } else if (value.startsWith('0x')) {
+    try {
+      return [true, hexToU8a(value)];
+    } catch (error) {
+      return [false, new Uint8Array([])];
+    }
   }
 
   // maybe it is an ss58?
@@ -51,10 +54,13 @@ function convertInput (value: string): [boolean, Uint8Array] {
     // we continue
   }
 
-  return [value === '0x', new Uint8Array([])];
+  return isAscii(value)
+    ? [true, stringToU8a(value)]
+    : [value === '0x', new Uint8Array([])];
 }
 
 function BaseBytes ({ asHex, children, className = '', defaultValue: { value }, isDisabled, isError, label, length = -1, onChange, onEnter, onEscape, size = 'full', validate = defaultValidate, withLabel, withLength }: Props): React.ReactElement<Props> {
+  const { t } = useTranslation();
   const [defaultValue] = useState(
     value
       ? isDisabled && isU8a(value) && isAscii(value)
@@ -104,7 +110,7 @@ function BaseBytes ({ asHex, children, className = '', defaultValue: { value }, 
         onChange={_onChange}
         onEnter={onEnter}
         onEscape={onEscape}
-        placeholder='0x...'
+        placeholder={t<string>('0x prefixed hex, e.g. 0x1234 or ascii data')}
         type='text'
         withEllipsis
         withLabel={withLabel}

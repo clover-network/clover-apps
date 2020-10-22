@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/apps authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 const fs = require('fs');
 const path = require('path');
@@ -12,16 +11,12 @@ function transform (file, enc, done) {
   const { ext } = path.parse(file.path);
 
   if (ext === '.tsx') {
-    const content = fs.readFileSync(file.path, enc);
-
-    const { outputText } = typescript.transpileModule(content, {
-      compilerOptions: {
-        target: 'es2018'
-      },
+    const { outputText } = typescript.transpileModule(fs.readFileSync(file.path, enc), {
+      compilerOptions: { target: 'es2018' },
       fileName: path.basename(file.path)
     });
 
-    const parserHandler = (key, options) => {
+    this.parser.parseFuncFromString(outputText, (key, options) => {
       options.defaultValue = key;
 
       if (process.platform !== 'win32') {
@@ -31,9 +26,7 @@ function transform (file, enc, done) {
       }
 
       this.parser.set(key, options);
-    };
-
-    this.parser.parseFuncFromString(outputText, parserHandler);
+    });
   }
 
   done();

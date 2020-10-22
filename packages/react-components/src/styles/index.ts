@@ -1,6 +1,7 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
+
+import { ThemeProps } from '../types';
 
 import { createGlobalStyle } from 'styled-components';
 
@@ -15,12 +16,26 @@ interface Props {
   uiHighlight?: string;
 }
 
+const BRIGHTNESS = 128 + 32;
+const FACTORS = [0.2126, 0.7152, 0.0722];
+const PARTS = [0, 2, 4];
+
 const defaultHighlight = '#d53127'; // #999
 
-const getHighlight = (props: Props): string =>
-  (props.uiHighlight || defaultHighlight);
+function getHighlight ({ uiHighlight }: Props): string {
+  return (uiHighlight || defaultHighlight);
+}
 
-export default createGlobalStyle<Props>`
+function getContrast (props: Props): string {
+  const hc = getHighlight(props).replace('#', '').toLowerCase();
+  const brightness = PARTS.reduce((b, p, index) => b + (parseInt(hc.substr(p, 2), 16) * FACTORS[index]), 0);
+
+  return brightness > BRIGHTNESS
+    ? 'rgba(45, 43, 41, 0.875)'
+    : 'rgba(255, 253, 251, 0.875)';
+}
+
+export default createGlobalStyle<Props & ThemeProps>`
   .highlight--all {
     background: ${getHighlight} !important;
     border-color: ${getHighlight} !important;
@@ -39,6 +54,11 @@ export default createGlobalStyle<Props>`
     background: #f2711d !important;
   }
 
+  .highlight--bg-contrast {
+    background: ${getContrast};
+  }
+
+  .highlight--bg-faint,
   .highlight--bg-light {
     background: #f57a2f;
     position: relative;
@@ -56,6 +76,14 @@ export default createGlobalStyle<Props>`
     }
   }
 
+  .highlight--bg-faint:before {
+    opacity: 0.025;
+  }
+
+  .highlight--bg-light:before {
+    opacity: 0.125;
+  }
+
   .highlight--border {
     border-color: ${getHighlight} !important;
   }
@@ -64,12 +92,16 @@ export default createGlobalStyle<Props>`
     color: ${getHighlight} !important;
   }
 
+  .highlight--color-contrast {
+    color: ${getContrast};
+  }
+
   .highlight--fill {
     fill: ${getHighlight} !important;
   }
 
   .highlight--gradient {
-    background: ${(props: Props) => `linear-gradient(90deg, ${props.uiHighlight || defaultHighlight}, transparent)`};
+    background: ${({ uiHighlight }: Props) => `linear-gradient(90deg, ${uiHighlight || defaultHighlight}, transparent)`};
   }
 
   .highlight--hover-bg:hover {
@@ -133,8 +165,14 @@ export default createGlobalStyle<Props>`
   }
 
   .ui--Table td .ui--Button {
-    &:not(.isDisabled):not(.isIcon),
+    &:not(.isDisabled):not(.isIcon):not(.isToplevel),
     &.withoutLink:not(.isDisabled) {
+      &:hover {
+        .ui--Icon {
+          color: ${getContrast};
+        }
+      }
+
       .ui--Icon {
         background: transparent;
         color: ${getHighlight};
@@ -150,6 +188,14 @@ export default createGlobalStyle<Props>`
     .ui.negative.button,
     .ui.buttons .negative.button {
       background: #666 !important;
+    }
+  }
+  .theme--dark,
+  .theme--light {
+    .ui--Tabs {
+      .ui--Tab.tabLinkActive {
+        border-bottom-color: ${getHighlight};
+      }
     }
 
     .ui.primary.button,
@@ -178,7 +224,8 @@ export default createGlobalStyle<Props>`
   }
 
   #root {
-    color: #4e4e4e;
+    background: ${({ theme }) => theme.bgPage};
+    color: ${({ theme }) => theme.color};
     font-family: sans-serif;
     height: 100%;
   }
@@ -188,7 +235,7 @@ export default createGlobalStyle<Props>`
   }
 
   article {
-    background: white;
+    background: ${({ theme }) => theme.bgTable};
     border: 1px solid #f2f2f2;
     border-radius: 0.25rem;
     box-sizing: border-box;
@@ -227,8 +274,8 @@ export default createGlobalStyle<Props>`
       margin: 2rem auto;
     }
 
-    &.nomargin {
-      margin: 0.5rem auto;
+    &.centered {
+      margin: 1.5rem auto;
       max-width: 75rem;
 
       &+.ui--Button-Group {
@@ -295,7 +342,7 @@ export default createGlobalStyle<Props>`
   }
 
   h1, h2, h3, h4, h5 {
-    color: rgba(0, 0, 0, .6);
+    color: ${({ theme }) => theme.colorSummary};
     font-family: sans-serif;
     font-weight: 100;
   }
@@ -328,7 +375,7 @@ export default createGlobalStyle<Props>`
 
   label {
     box-sizing: border-box;
-    color: rgba(78, 78, 78, .66);
+    color: ${({ theme }) => theme.colorLabel};
     display: block;
     font-family: sans-serif;
     font-size: 1rem;

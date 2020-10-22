@@ -1,9 +1,8 @@
 // Copyright 2017-2020 @polkadot/app-staking authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { DeriveSessionIndexes, DeriveStakingElected, DeriveStakingWaiting } from '@polkadot/api-derive/types';
-import { Balance, ValidatorPrefs, ValidatorPrefsTo196 } from '@polkadot/types/interfaces';
+import { Balance, ValidatorPrefsTo196 } from '@polkadot/types/interfaces';
 import { SortedTargets, TargetSortBy, ValidatorInfo } from './types';
 
 import BN from 'bn.js';
@@ -65,35 +64,27 @@ function sortValidators (list: ValidatorInfo[]): ValidatorInfo[] {
 }
 
 function extractSingle (allAccounts: string[], amount: BN = baseBalance(), { info }: DeriveStakingElected | DeriveStakingWaiting, favorites: string[], perValidatorReward: BN, isElected: boolean): [ValidatorInfo[], string[]] {
-  const defaultExposure = {
-    others: registry.createType('Vec<IndividualExposure>'),
-    own: registry.createType('Compact<Balance>'),
-    total: registry.createType('Compact<Balance>')
-  };
-  const defaultPrefs = {
-    commission: registry.createType('Compact<Perbill>')
-  };
   const nominators: Record<string, boolean> = {};
-  const list = info.map(({ accountId, exposure: _exposure, stakingLedger, validatorPrefs }): ValidatorInfo => {
-    const exposure = _exposure || defaultExposure;
-    const prefs = (validatorPrefs as (ValidatorPrefs | ValidatorPrefsTo196)) || defaultPrefs;
-    let bondOwn = exposure.own.unwrap();
-    let bondTotal = exposure.total.unwrap();
+  const emptyExposure = registry.createType('Exposure');
+  const list = info.map(({ accountId, exposure = emptyExposure, stakingLedger, validatorPrefs }): ValidatorInfo => {
+    // some overrides (e.g. Darwinia Crab) does not have the own field in Exposure
+    let bondOwn = exposure.own?.unwrap() || BN_ZERO;
+    let bondTotal = exposure.total?.unwrap() || BN_ZERO;
     const skipRewards = bondTotal.isZero();
 
-    if (bondTotal.isZero() && stakingLedger) {
+    if (bondTotal.isZero()) {
       bondTotal = bondOwn = stakingLedger.total.unwrap();
     }
 
-    const validatorPayment = (prefs as ValidatorPrefsTo196).validatorPayment
-      ? (prefs as ValidatorPrefsTo196).validatorPayment.unwrap() as BN
-      : (prefs as ValidatorPrefs).commission.unwrap().mul(perValidatorReward).div(PERBILL);
+    const validatorPayment = (validatorPrefs as unknown as ValidatorPrefsTo196).validatorPayment
+      ? (validatorPrefs as unknown as ValidatorPrefsTo196).validatorPayment.unwrap() as BN
+      : validatorPrefs.commission.unwrap().mul(perValidatorReward).div(PERBILL);
     const key = accountId.toString();
     const rewardSplit = perValidatorReward.sub(validatorPayment);
     const rewardPayout = amount.isZero() || rewardSplit.isZero()
       ? BN_ZERO
       : amount.mul(rewardSplit).div(amount.add(bondTotal));
-    const isNominating = exposure.others.reduce((isNominating, indv): boolean => {
+    const isNominating = (exposure.others || []).reduce((isNominating, indv): boolean => {
       const nominator = indv.who.toString();
 
       nominators[nominator] = true;
@@ -107,15 +98,16 @@ function extractSingle (allAccounts: string[], amount: BN = baseBalance(), { inf
       bondOwn,
       bondShare: 0,
       bondTotal,
-      commissionPer: (((prefs as ValidatorPrefs).commission?.unwrap() || BN_ZERO).toNumber() / 10_000_000),
+      commissionPer: ((validatorPrefs.commission?.unwrap() || BN_ZERO).toNumber() / 10_000_000),
+      exposure,
       hasIdentity: false,
       isActive: !skipRewards,
-      isCommission: !!(prefs as ValidatorPrefs).commission,
+      isCommission: !!validatorPrefs.commission,
       isElected,
       isFavorite: favorites.includes(key),
       isNominating,
       key,
-      numNominators: exposure.others.length,
+      numNominators: (exposure.others || []).length,
       rankBondOther: 0,
       rankBondOwn: 0,
       rankBondTotal: 0,
@@ -126,7 +118,8 @@ function extractSingle (allAccounts: string[], amount: BN = baseBalance(), { inf
       rankReward: 0,
       rewardPayout: skipRewards ? BN_ZERO : rewardPayout,
       rewardSplit,
-      validatorPayment
+      validatorPayment,
+      validatorPrefs
     };
   });
 
@@ -145,14 +138,6 @@ function extractInfo (allAccounts: string[], amount: BN = baseBalance(), elected
     .sort((a, b) => a.cmp(b));
   const totalStaked = activeTotals.reduce((total: BN, value) => total.iadd(value), new BN(0));
   const avgStaked = totalStaked.divn(activeTotals.length);
-
-  // median
-  // const midIndex = Math.floor(activeTotals.length / 2);
-  // const avgStaked = activeTotals.length
-  //   ? activeTotals.length % 2
-  //     ? activeTotals[midIndex]
-  //     : activeTotals[midIndex - 1].add(activeTotals[midIndex]).divn(2)
-  //   : BN_ZERO;
 
   return { avgStaked, lowStaked: activeTotals[0] || BN_ZERO, nominators, totalStaked, validatorIds, validators };
 }
