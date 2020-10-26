@@ -1,12 +1,12 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { DeriveBalancesAll, DeriveDemocracyLock, DeriveStakingAccount } from '@polkadot/api-derive/types';
 import { BlockNumber, LockIdentifier, ValidatorPrefsTo145 } from '@polkadot/types/interfaces';
 
 import BN from 'bn.js';
 import React from 'react';
+import { TFunction } from 'i18next';
 import styled from 'styled-components';
 import { BN_ZERO, formatBalance, formatNumber, hexToString, isObject } from '@polkadot/util';
 import { Expander, Icon, Tooltip } from '@polkadot/react-components';
@@ -143,7 +143,7 @@ function calcBonded (stakingInfo?: DeriveStakingAccount, bonded?: boolean | BN[]
   return [own, other];
 }
 
-function renderExtended ({ address, balancesAll, withExtended }: Props, t: <T = string> (key: string) => T): React.ReactNode {
+function renderExtended ({ address, balancesAll, withExtended }: Props, t: TFunction): React.ReactNode {
   const extendedDisplay = withExtended === true
     ? DEFAULT_EXTENDED
     : withExtended || undefined;
@@ -173,7 +173,7 @@ function renderExtended ({ address, balancesAll, withExtended }: Props, t: <T = 
   );
 }
 
-function renderValidatorPrefs ({ stakingInfo, withValidatorPrefs = false }: Props, t: <T = string> (key: string) => T): React.ReactNode {
+function renderValidatorPrefs ({ stakingInfo, withValidatorPrefs = false }: Props, t: TFunction): React.ReactNode {
   const validatorPrefsDisplay = withValidatorPrefs === true
     ? DEFAULT_PREFS
     : withValidatorPrefs;
@@ -215,7 +215,7 @@ function renderValidatorPrefs ({ stakingInfo, withValidatorPrefs = false }: Prop
   );
 }
 
-function renderBalances (props: Props, allAccounts: string[], bestNumber: BlockNumber | undefined, t: <T = string> (key: string) => T): React.ReactNode {
+function renderBalances (props: Props, allAccounts: string[], bestNumber: BlockNumber | undefined, t: TFunction): React.ReactNode {
   const { address, balancesAll, democracyLocks, stakingInfo, withBalance = true, withBalanceToggle = false } = props;
   const balanceDisplay = withBalance === true
     ? DEFAULT_BALANCES
@@ -272,12 +272,14 @@ function renderBalances (props: Props, allAccounts: string[], bestNumber: BlockN
                 <div>
                   {formatBalance(balancesAll.vestedClaimable, { forceUnit: '-' })}
                   <div className='faded'>{t('available to be unlocked')}</div>
-                  {formatBalance(balancesAll.vestingPerBlock)}
-                  <div className='faded'>{t('per block')}</div>
-                  <div className='faded'>
-                    {`${t('until block')} ${formatNumber(balancesAll.vestingEndBlock)}`}
-                    <BlockToTime blocks={balancesAll.vestingEndBlock.sub(bestNumber)} />
-                  </div>
+                  {bestNumber.lt(balancesAll.vestingEndBlock) && (
+                    <>
+                      <BlockToTime blocks={balancesAll.vestingEndBlock.sub(bestNumber)} />
+                      <div className='faded'>{t('until block')} {formatNumber(balancesAll.vestingEndBlock)}</div>
+                      {formatBalance(balancesAll.vestingPerBlock)}
+                      <div className='faded'>{t('per block')}</div>
+                    </>
+                  )}
                 </div>
               }
               trigger={`${address}-vested-trigger`}

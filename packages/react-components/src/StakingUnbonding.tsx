@@ -1,6 +1,5 @@
 // Copyright 2017-2020 @polkadot/react-components authors & contributors
-// This software may be modified and distributed under the terms
-// of the Apache-2.0 license. See the LICENSE file for details.
+// SPDX-License-Identifier: Apache-2.0
 
 import { DeriveSessionProgress, DeriveStakingAccount, DeriveUnlocking } from '@polkadot/api-derive/types';
 
@@ -20,15 +19,16 @@ interface Props {
   stakingInfo?: DeriveStakingAccount;
 }
 
-function extractTotals (stakingInfo?: DeriveStakingAccount, progress?: DeriveSessionProgress): [[DeriveUnlocking, BN][], BN] {
+function extractTotals (stakingInfo?: DeriveStakingAccount, progress?: DeriveSessionProgress): [[DeriveUnlocking, BN, BN][], BN] {
   if (!stakingInfo?.unlocking || !progress) {
     return [[], BN_ZERO];
   }
 
   const mapped = stakingInfo.unlocking
     .filter(({ remainingEras, value }) => value.gt(BN_ZERO) && remainingEras.gt(BN_ZERO))
-    .map((unlock): [DeriveUnlocking, BN] => [
+    .map((unlock): [DeriveUnlocking, BN, BN] => [
       unlock,
+      unlock.remainingEras,
       unlock.remainingEras
         .sub(BN_ONE)
         .imul(progress.eraLength)
@@ -64,17 +64,22 @@ function StakingUnbonding ({ className = '', stakingInfo }: Props): React.ReactE
       />
       <FormatBalance value={total} />
       <Tooltip
-        text={mapped.map(([{ value }, blocks], index): React.ReactNode => (
+        text={mapped.map(([{ value }, eras, blocks], index): React.ReactNode => (
           <div
             className='row'
             key={index}
           >
-            <div>{t<string>('Unbonding {{value}}, ', { replace: { value: formatBalance(value, { forceUnit: '-' }) } })}</div>
+            <div>{t<string>('Unbonding {{value}}', { replace: { value: formatBalance(value, { forceUnit: '-' }) } })}</div>
             <div className='faded'>
-              <BlockToTime
-                blocks={blocks}
-                label={`${t<string>('{{blocks}} blocks', { replace: { blocks: formatNumber(blocks) } })}, `}
-              />
+              {api.consts.babe?.epochDuration
+                ? (
+                  <BlockToTime
+                    blocks={blocks}
+                    label={`${t<string>('{{blocks}} blocks', { replace: { blocks: formatNumber(blocks) } })}, `}
+                  />
+                )
+                : t<string>('{{eras}} eras remaining', { replace: { eras: formatNumber(eras) } })
+              }
             </div>
           </div>
         ))}
