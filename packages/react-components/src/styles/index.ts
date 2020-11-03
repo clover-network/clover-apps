@@ -60,7 +60,7 @@ export default createGlobalStyle<Props & ThemeProps>`
 
   .highlight--bg-faint,
   .highlight--bg-light {
-    background: #f57a2f;
+    background: #FEF1EA;
     position: relative;
 
     &:before {
