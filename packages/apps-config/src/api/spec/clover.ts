@@ -3,7 +3,7 @@
  **/
 const cloverTypes = {
   Amount: 'i128',
-  Keys: 'SessionKeys2',
+  Keys: 'SessionKeys3',
   AmountOf: 'Amount',
   Balance: 'u128',
   CurrencyId: {
