@@ -66,7 +66,7 @@ function createLiveNetworks (t: TFunction): LinkOption[] {
       dnslink: 'clover',
       info: 'clover',
       text: t<string>('rpc.clover.parity', 'Clover (Live, hosted by Parity)', { ns: 'apps-config' }),
-      value: 'wss://api.ownstack.cn'
+      value: 'wss://api.clover.finance'
     },
     {
       dnslink: 'polkadot',
