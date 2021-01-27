@@ -20,7 +20,7 @@ const BRIGHTNESS = 128 + 32;
 const FACTORS = [0.2126, 0.7152, 0.0722];
 const PARTS = [0, 2, 4];
 
-const defaultHighlight = '#d53127'; // #999
+const defaultHighlight = '#4ba870'; // #999
 
 function getHighlight ({ uiHighlight }: Props): string {
   return (uiHighlight || defaultHighlight);
@@ -51,7 +51,7 @@ export default createGlobalStyle<Props & ThemeProps>`
   }
 
   .highlight--bg {
-    background: #f2711d !important;
+    background-image: linear-gradient(to right, #52ad75, #7cc773);
   }
 
   .highlight--bg-contrast {
@@ -60,7 +60,7 @@ export default createGlobalStyle<Props & ThemeProps>`
 
   .highlight--bg-faint,
   .highlight--bg-light {
-    background: #FEF1EA;
+    background: #fafafa;
     position: relative;
 
     &:before {
@@ -130,7 +130,7 @@ export default createGlobalStyle<Props & ThemeProps>`
     &:not(.isDisabled):not(.isIcon):not(.isBasic),
     &.withoutLink:not(.isDisabled) {
       .ui--Icon {
-        background: #f2711d;
+        background: #FFAC3D;
         color: #f5f5f4;
       }
     }
@@ -151,7 +151,7 @@ export default createGlobalStyle<Props & ThemeProps>`
 
     &:hover:not(.isDisabled):not(.isReadOnly),
     &.isSelected {
-      background: #f2711d;
+      background: #FFAC3D;
       color: #f5f5f4;
       text-shadow: none;
 

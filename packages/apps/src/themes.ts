@@ -28,7 +28,7 @@ export const lightTheme: ThemeDef = {
   bgInverse: 'rgba(244, 242, 240, 0.91)',
   bgMenu: '#fff',
   bgMenuHover: 'rgba(255, 255, 255, 0.5)',
-  bgPage: '#f5f3f1',
+  bgPage: '#fafafa',
   bgTable: '#fff',
   bgTabs: '#fff',
   bgToggle: '#e4e5e6',
