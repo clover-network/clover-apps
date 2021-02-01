@@ -34,6 +34,29 @@ const cloverTypes = {
   },
   EcdsaSignature: '[u8; 65]',
   EvmAddress: 'H160',
+  ExitSucceed: {
+    _enum: ['Stopped', 'Returned', 'Suicided'],
+  },
+  ExitRevert: {
+    _enum: ['Reverted'],
+  },
+  ExitError: {
+    _enum: [
+      'StackUnderflow', 'StackOverflow', 'InvalidJump', 'InvalidRange', 'DesignatedInvalid', 'CallTooDeep',
+      'CreateCollision', 'CreateContractLimit', 'OutOfOffset', 'OutOfGas', 'OutOfFund', 'PCUnderflow', 'CreateEmpty',
+      'Other<String>'
+    ],
+  },
+  ExitFatal: {
+    _enum: ['NotSupported', 'UnhandledInterrupt', 'CallErrorAsFatal', 'Other<String>'],
+  },
+  ExitReason: {
+    _enum: ['Succeed<ExitSucceed>',
+      'Error<ExitError>',
+      'Revert<ExitRevert>',
+      'Fatal<ExitFatal>'
+    ],
+  },
 }
 
 export default cloverTypes;
