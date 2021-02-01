@@ -1292,6 +1292,7 @@
   "rpc.beresheet": "Beresheet (Testnet Edgeware, hébergé par Commonwealth Labs)",
   "rpc.canvas": "Canvas",
   "rpc.centrifuge": "Centrifuge",
+  "rpc.clover.finance": "Clover",
   "rpc.crab": "Darwinia Crab",
   "rpc.crust.network": "Crust Maxwell CC2",
   "rpc.custom": "Environment personnalisé",

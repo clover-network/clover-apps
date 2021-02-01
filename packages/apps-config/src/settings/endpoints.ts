@@ -61,13 +61,7 @@ function createDev (t: TFunction): LinkOption[] {
 
 function createLiveNetworks (t: TFunction): LinkOption[] {
   return [
-    // fixed, polkadot
-    {
-      dnslink: 'clover',
-      info: 'clover',
-      text: t<string>('rpc.clover.parity', 'Clover (Live, hosted by Parity)', { ns: 'apps-config' }),
-      value: 'wss://api.clover.finance'
-    },
+    // fixed, clover
     {
       dnslink: 'polkadot',
       info: 'polkadot',
@@ -164,6 +158,13 @@ function createLiveNetworks (t: TFunction): LinkOption[] {
 
 function createTestNetworks (t: TFunction): LinkOption[] {
   return [
+    {
+      dnslink: 'clover',
+      info: 'clover',
+      text: t<string>('rpc.clover', 'Clover (Live, hosted by Clover)', { ns: 'apps-config' }),
+      textBy: t('rpc.hosted.by', 'hosted by {{host}}', { ns: 'apps-config', replace: { host: 'Clover' } }),
+      value: 'wss://api.clover.finance'
+    },
     // polkadot test relays
     {
       dnslink: 'rococo',
